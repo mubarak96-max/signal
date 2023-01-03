@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import SignalImage from '../assets/signal.png';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -20,19 +21,23 @@ const LoginScreen = () => {
     return unsubscribe;
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.authStateChanged((authUser) => {
-  //     if (authUser) {
-  //       navigation.replace('Home');
-  //     }
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
-
   const navigation = useNavigation();
 
-  const signIn = () => {};
+  const signIn = () => {
+    try {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          navigation.replace('Home');
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    } catch (error) {}
+  };
 
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>

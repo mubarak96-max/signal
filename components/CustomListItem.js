@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { Avatar, ListItem } from '@rneui/themed';
-import { ListItemSubtitle } from '@rneui/base/dist/ListItem/ListItem.Subtitle';
 
 const CustomListItem = ({ id, chatName, enterChat }) => {
   return (
-    <ListItem>
+    <ListItem key={id} bottomDivider onPress={() => enterChat(id, chatName)}>
       <Avatar
         rounded
         source={{ uri: 'https://img.icons8.com/ios-glyphs/512/user.png' }}
@@ -13,7 +12,7 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
 
       <ListItem.Content>
         <ListItem.Title style={{ fontWeight: 'bold' }}>
-          YouTube Chat
+          {chatName}
         </ListItem.Title>
 
         <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail'>
