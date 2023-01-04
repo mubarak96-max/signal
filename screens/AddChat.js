@@ -36,7 +36,7 @@ const AddChat = () => {
         leftIcon={<AntDesign name='wechat' size={24} />}
       />
 
-      <Button title='Create new chat' onPress={createChat} />
+      <Button disabled={!input} title='Create new chat' onPress={createChat} />
     </View>
   );
 };

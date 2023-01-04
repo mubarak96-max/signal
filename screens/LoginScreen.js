@@ -35,12 +35,17 @@ const LoginScreen = () => {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log(error);
         });
     } catch (error) {}
   };
 
   return (
-    <KeyboardAvoidingView behavior='padding' style={styles.container}>
+    <KeyboardAvoidingView
+      behavior='padding'
+      keyboardVerticalOffset={100}
+      style={styles.container}
+    >
       <StatusBar style='light' />
 
       <Image
@@ -68,6 +73,7 @@ const LoginScreen = () => {
           type='password'
           value={password}
           onChangeText={(text) => setPassword(text)}
+          onSubmitEditing={signIn}
         />
       </View>
 

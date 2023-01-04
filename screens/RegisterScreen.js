@@ -4,7 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { Input, Button, Text } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile
+} from 'firebase/auth';
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');
@@ -23,25 +27,18 @@ const RegisterScreen = () => {
   const register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        // const user = userCredential.user;
-        const user = auth.currentUser;
-        // console.log(userCredential.user);
-        // userCredential.user.updateProfile({
-        //   displayName: name,
-        //   photoURL: imageURL || 'https://img.icons8.com/ios-glyphs/512/user.png'
-        // });
-
+        console.log('user', userCredential.user);
+      })
+      .then(() =>
         updateProfile(auth.currentUser, {
           displayName: name,
           photoURL: imageURL
-        }).then(() => console.log('user', auth.currentUser));
-
-        // ...
-      })
+        })
+      )
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        alert(error);
         // ..
       });
   };
@@ -79,6 +76,7 @@ const RegisterScreen = () => {
           type='text'
           value={imageURL}
           onChangeText={(text) => setImageURL(text)}
+          onSubmitEditing={register}
         />
       </View>
 
